@@ -143,11 +143,11 @@ Average Score: 85.50
 ---
 
 ## 🏷️ License
-This project is **open-source** and available under the **MIT License**.
+This project is **open-source** and available under the **ISO License**.
 
 ---
 
 ## 📞 Contact
 For questions, contributions, or issues, contact:  
-📧 **your-email@example.com**  
-🔗 **GitHub: [YourGitHubUsername](https://github.com/YourGitHubUsername)**
+📧 **daniel.igwe@miva.edu.ng**  
+🔗 **GitHub: [YourGitHubUsername](https://github.com/Analytical-Minds)**
