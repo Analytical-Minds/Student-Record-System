@@ -150,4 +150,4 @@ This project is **open-source** and available under the **ISO License**.
 ## 📞 Contact
 For questions, contributions, or issues, contact:  
 📧 **daniel.igwe@miva.edu.ng**  
-🔗 **GitHub: [YourGitHubUsername](https://github.com/Analytical-Minds)**
+🔗 **GitHub: [Anaytical-Minds](https://github.com/Analytical-Minds)**
