@@ -1,0 +1,12 @@
+Name: Joseph Inaku
+Roll Number: 20
+Average Score: 88.00
+Scores: 88.00 77.00 99.00 
+Name: Josh Drake
+Roll Number: 7
+Average Score: 95.00
+Scores: 89.00 97.00 99.00 
+Name: Osasu Champion
+Roll Number: 21
+Average Score: 87.33
+Scores: 82.00 88.00 92.00 
