@@ -11,7 +11,7 @@
 int main() {
      char user[50];
 
-    printf("Hello! Welcome to the Students Score Record program.\nPlease enter your name: ");
+    printf("Hello! Welcome to the Students Record System program.\nPlease enter your name: ");
     fgets(user, sizeof(user), stdin); // Get user name from stdin
 
     // Remove the newline character if present
