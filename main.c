@@ -21,21 +21,24 @@ int main() {
 
     printf("Welcome %s! Kindly select an operation from the functions below.\nProvide the number of the operation you would like to perform\n", user);
 
+    // initialize variables
     int choice;
-    int studentCount = 0;
-    int capacity = INITIAL_CAPACITY;
-    struct BSTNode* bstRoot = NULL;
+    int studentCount = 0; // Number of students currently stored
+    int capacity = INITIAL_CAPACITY; // Initial capacity of the dynamic array
+    struct BSTNode* bstRoot = NULL;  // Root of the BST
+
+    // Allocate memory for the dynamic array
     struct student *students = (struct student *)malloc(capacity * sizeof(struct student));
     if (students == NULL) {
         printf("Memory allocation failed!\n");
         return 1;
     }
 
-    while (1) {
-        displayMenu();
+    while (1) { // Infinite loop to keep the loop running
+        displayMenu(); // Display the menu options
         printf("Enter your choice: ");
         do {
-            char input[20];
+            char input[50];
             fgets(input, sizeof(input), stdin);
             if (cleanNumericInput(input) != 0) {
                 printf("Invalid choice! Please enter a valid number: ");
@@ -46,30 +49,31 @@ int main() {
 
         switch (choice) {
             case 1:
-                displayAllStudents(students, studentCount);
+                displayAllStudents(students, studentCount); // Display all students
                 break;
             case 2:
-                addStudent(&students, &studentCount, &capacity);
-                bstRoot = insertIntoBST(bstRoot, students[studentCount - 1]);
+                addStudent(&students, &studentCount, &capacity); // Add a new student
+                bstRoot = insertIntoBST(bstRoot, students[studentCount - 1]); // Inserting a student into BST
                 break;
             case 3:
-                modifyStudent(students, studentCount);
+                modifyStudent(students, studentCount); // Modify a student
                 break;
             case 4:
-                deleteStudent(students, &studentCount);
+                deleteStudent(students, &studentCount); // Delete a student
                 break;
             case 5:
                 printf("Enter roll number to search: ");
                 int rollNumber;
                 do {
-                    char input[20];
+                    char input[50];
                     fgets(input, sizeof(input), stdin);
                     if (cleanNumericInput(input) != 0) {
                         printf("Invalid roll number! Please enter a valid number: ");
                     } else {
                         rollNumber = atoi(input);
                     }
-                } while (cleanNumericInput(input) != 0 || rollNumber <= 0);
+                } while (cleanNumericInput(input) != 0);
+                
                 struct student* foundStudent = searchBST(bstRoot, rollNumber);
                 if (foundStudent) {
                     printf("\nStudent found:\n");
@@ -104,7 +108,7 @@ int main() {
                 printf("Enter choice: ");
                 int order;
                 do {
-                    char input[20];
+                    char input[50];
                     fgets(input, sizeof(input), stdin);
                     if (cleanNumericInput(input) != 0) {
                         printf("Invalid choice! Please enter 1 or 2: ");
@@ -112,21 +116,22 @@ int main() {
                         order = atoi(input);
                     }
                 } while (cleanNumericInput(input) != 0 || (order != 1 && order != 2));
+                
                 int ascending = (order == 1);
                 quickSort(students, 0, studentCount - 1, ascending);
                 printf("\nStudents sorted by average score:\n");
                 displayAverageScore(students, studentCount);
                 break;
             case 8:
-                saveStudentsToFile(students, studentCount, "students.txt");
+                saveStudentsToFile(students, studentCount, "students.txt"); // Save students to file
                 printf("Student records saved to file.\n");
                 break;
             case 9:
-                students = loadStudentsFromFile(&studentCount, &capacity, "students.txt");
+                students = loadStudentsFromFile(&studentCount, &capacity, "students.txt"); // Load students from file
                 if (students != NULL) {
                     printf("Loaded %d student records from file.\n", studentCount);
-                    displayAllStudents(students, studentCount);
-                    bstRoot = NULL;
+                    displayAllStudents(students, studentCount); // Display loaded records
+                    bstRoot = NULL; // Clear previous BST
                     for (int i = 0; i < studentCount; i++) {
                         bstRoot = insertIntoBST(bstRoot, students[i]);
                     }
@@ -134,12 +139,12 @@ int main() {
                 break;
             case 10:
                 printf("Exiting the program. Goodbye!\n");
-                freeBST(bstRoot);
+                freeBST(bstRoot); // free BST Nodes
                 for (int i = 0; i < studentCount; i++) {
                     free(students[i].marks);
                 }
-                free(students);
-                return 0;
+                free(students); // Free the dynamic array
+                return 0; // Exit the program
         }
     }
     return 0;
