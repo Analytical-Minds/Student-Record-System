@@ -14,10 +14,10 @@ int main() {
     printf("Hello! Welcome to the Students Score Record program.\nPlease enter your name: ");
     do {
         cleanStringInput(user);
-        if (cleanStringInput(user)) {
+        if (cleanStringInput(user) != 0) {
             printf("Invalid input! Please enter a valid name: ");
         }
-    } while (cleanStringInput(user));
+    } while (cleanStringInput(user) != 0);
 
     printf("Welcome %s! Kindly select an operation from the functions below.\nProvide the number of the operation you would like to perform\n", user);
 
@@ -37,12 +37,12 @@ int main() {
         do {
             char input[20];
             fgets(input, sizeof(input), stdin);
-            if (cleanNumericInput(input)) {
+            if (cleanNumericInput(input) != 0) {
                 printf("Invalid choice! Please enter a valid number: ");
             } else {
                 choice = atoi(input);
             }
-        } while (choice < 1 || choice > 10);
+        } while (cleanNumericInput(input) != 0 || choice < 1 || choice > 10);
 
         switch (choice) {
             case 1:
@@ -64,12 +64,12 @@ int main() {
                 do {
                     char input[20];
                     fgets(input, sizeof(input), stdin);
-                    if (cleanNumericInput(input)) {
+                    if (cleanNumericInput(input) != 0) {
                         printf("Invalid roll number! Please enter a valid number: ");
                     } else {
                         rollNumber = atoi(input);
                     }
-                } while (rollNumber <= 0);
+                } while (cleanNumericInput(input) != 0 || rollNumber <= 0);
                 struct student* foundStudent = searchBST(bstRoot, rollNumber);
                 if (foundStudent) {
                     printf("\nStudent found:\n");
@@ -106,12 +106,12 @@ int main() {
                 do {
                     char input[20];
                     fgets(input, sizeof(input), stdin);
-                    if (cleanNumericInput(input)) {
+                    if (cleanNumericInput(input) != 0) {
                         printf("Invalid choice! Please enter 1 or 2: ");
                     } else {
                         order = atoi(input);
                     }
-                } while (order != 1 && order != 2);
+                } while (cleanNumericInput(input) != 0 || (order != 1 && order != 2));
                 int ascending = (order == 1);
                 quickSort(students, 0, studentCount - 1, ascending);
                 printf("\nStudents sorted by average score:\n");
