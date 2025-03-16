@@ -14,13 +14,10 @@ int main() {
     printf("Hello! Welcome to the Students Score Record program.\nPlease enter your name: ");
     do {
         fgets(user, sizeof(user), stdin);
-        user[strcspn(user, "\n")] = '\0';
-        cleanStringInput(user);
+        user[strcspn(user, "\n")] = '\0'; // Remove newline character
         if (cleanStringInput(user) != 0) {
             printf("Invalid input! Please enter a valid name: ");
         }
-        printf("%d", cleanStringInput(user));
-        break;
     } while (cleanStringInput(user) != 0);
 
     printf("Welcome %s! Kindly select an operation from the functions below.\nProvide the number of the operation you would like to perform\n", user);
@@ -38,14 +35,19 @@ int main() {
     while (1) {
         displayMenu();
         char input[50];
-        printf("Enter your choice: ");
+        int validChoice = 0;
+        
         do {
-            sscanf(input, "%d", &choice);
-            cleanNumericInput(input);
-            if (cleanNumericInput(input) != 0 || (sscanf(input, "%d", &choice) != 1) || choice < 1 || choice > 10) {
+            printf("Enter your choice: ");
+            fgets(input, sizeof(input), stdin); // Read input from the user
+            input[strcspn(input, "\n")] = "\0"; // Remove newline character
+
+            if (cleanNumericInput(input) != 0 || sscanf(input, "%d", &choice) != 1 || choice < 1 || choice > 10) {
                 printf("Invalid choice! Please enter a number between 1 and 10: ");
+            } else {
+                validChoice = 1; // Valid choice, exit the loop
             }
-        } while (cleanNumericInput(input) != 0 || (sscanf(input, "%d", &choice) != 1) || choice < 1 || choice > 10);
+        } while (!validChoice);
 
         switch (choice) {
             case 1:
@@ -65,12 +67,18 @@ int main() {
                 printf("Enter roll number to search: ");
                 char rollInput[50];
                 int rollNumber;
+                int validRoll = 0;
+
                 do {
-                    cleanNumericInput(rollInput);
+                    fgets(rollInput, sizeof(rollInput), stdin); // Read input from the user
+                    rollInput[strcspn(rollInput, "\n")] = "\0"; // Remove newline character
+
                     if (cleanNumericInput(rollInput) != 0 || sscanf(rollInput, "%d", &rollNumber) != 1) {
                         printf("Invalid roll number! Please enter a valid integer: ");
+                    } else {
+                        validRoll = 1; // Valid roll number, exit the loop
                     }
-                } while (cleanNumericInput(rollInput) != 0 || sscanf(rollInput, "%d", &rollNumber) != 1);
+                } while (!validRoll);
                 struct student* foundStudent = searchBST(bstRoot, rollNumber);
                 if (foundStudent) {
                     printf("\nStudent found:\n");
@@ -102,15 +110,20 @@ int main() {
                 printf("Choose sorting order:\n");
                 printf("1. Ascending (Lowest Average First)\n");
                 printf("2. Descending (Highest Average First)\n");
-                printf("Enter choice: ");
                 char orderInput[50];
                 int order;
+                int validChoice = 0;
                 do {
-                    cleanNumericInput(orderInput);
-                    if (cleanNumericInput(orderInput) != 0 || sscanf(orderInput, "%d", &order) != 1 || (order != 1 && order != 2)) {
-                        printf("Invalid choice! Please enter 1 or 2: ");
+                    printf("Enter your choice: ");
+                    fgets(orderInput, sizeof(orderInput), stdin); // Read input from the user
+                    orderInput[strcspn(orderInput, "\n")] = "\0"; // Remove newline character
+        
+                    if (cleanNumericInput(orderInput) != 0 || sscanf(orderInput, "%d", &order) != 1 || choice < 1 || choice > 10) {
+                        printf("Invalid choice! Please enter a number between 1 and 10: ");
+                    } else {
+                        validChoice = 1; // Valid choice, exit the loop
                     }
-                } while (cleanNumericInput(orderInput) != 0 || sscanf(orderInput, "%d", &order) != 1 || (order != 1 && order != 2));
+                } while (!validChoice);
                 int ascending = (order == 1);
                 quickSort(students, 0, studentCount - 1, ascending);
                 printf("\nStudents sorted by average score:\n");
