@@ -13,6 +13,8 @@ int main() {
 
     printf("Hello! Welcome to the Students Score Record program.\nPlease enter your name: ");
     do {
+        fgets(user, sizeof(user), stdin);
+        user[strcspn(user, "\n")] = '\0';
         cleanStringInput(user);
         if (cleanStringInput(user) != 0) {
             printf("Invalid input! Please enter a valid name: ");
@@ -33,9 +35,10 @@ int main() {
 
     while (1) {
         displayMenu();
-        printf("Enter your choice: ");
         char input[50];
+        printf("Enter your choice: ");
         do {
+            sscanf(input, "%d", &choice);
             cleanNumericInput(input);
             if (cleanNumericInput(input) != 0 || (sscanf(input, "%d", &choice) != 1) || choice < 1 || choice > 10) {
                 printf("Invalid choice! Please enter a number between 1 and 10: ");
