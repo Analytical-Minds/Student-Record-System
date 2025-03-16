@@ -19,6 +19,8 @@ int main() {
         if (cleanStringInput(user) != 0) {
             printf("Invalid input! Please enter a valid name: ");
         }
+        printf("%d", cleanStringInput(user));
+        break;
     } while (cleanStringInput(user) != 0);
 
     printf("Welcome %s! Kindly select an operation from the functions below.\nProvide the number of the operation you would like to perform\n", user);
