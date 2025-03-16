@@ -118,8 +118,8 @@ int main() {
                     fgets(orderInput, sizeof(orderInput), stdin); // Read input from the user
                     orderInput[strcspn(orderInput, "\n")] = '\0'; // Remove newline character
         
-                    if (cleanNumericInput(orderInput) != 0 || sscanf(orderInput, "%d", &order) != 1 || choice < 1 || choice > 10) {
-                        printf("Invalid choice! Please enter a number between 1 and 10: ");
+                    if (cleanNumericInput(orderInput) != 0 || sscanf(orderInput, "%d", &order) != 1 || choice < 1 || choice > 2) {
+                        printf("Invalid choice! Please enter a number between 1 and 2: ");
                     } else {
                         validChoice = 1; // Valid choice, exit the loop
                     }
