@@ -345,3 +345,26 @@ void quickSort(struct student students[], int low, int high, int ascending) {
         quickSort(students, pi + 1, high, ascending);
     }
 }
+
+
+// Function to validate input contains only letters and spaces
+int cleanStringInput(char *input) {
+    regex_t regex;
+    regcomp(&regex, "^[A-Za-z ]+$", REG_EXTENDED);
+    
+    int result = regexec(&regex, input, 0, NULL, 0);
+    regfree(&regex);
+    
+    return (result == 0) ? 0 : 1;  // 0 if valid, 1 if invalid
+}
+
+// Function to validate input contains only numbers (including floats)
+int cleanNumericInput(char *input) {
+    regex_t regex;
+    regcomp(&regex, "^[0-9]+(\\.[0-9]+)?$", REG_EXTENDED);
+    
+    int result = regexec(&regex, input, 0, NULL, 0);
+    regfree(&regex);
+    
+    return (result == 0) ? 0 : 1;  // 0 if valid, 1 if invalid
+}

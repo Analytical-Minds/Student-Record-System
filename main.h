@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <regex.h>
 
 #define INITIAL_CAPACITY 10 // Initial capacity for the dynamic array
 #define MAX_SCORES 15       // Maximum number of scores per student
@@ -53,5 +54,8 @@ void freeBST(struct BSTNode* root);
 void quickSort(struct student students[], int low, int high, int ascending);
 int partition(struct student students[], int low, int high, int ascending);
 void clearInputBuffer();
+int cleanStringInput(char *input);
+int cleanNumericInput(char *input);
+
 
 #endif // MAIN_H
