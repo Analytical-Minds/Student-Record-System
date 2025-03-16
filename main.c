@@ -40,7 +40,7 @@ int main() {
         do {
             printf("Enter your choice: ");
             fgets(input, sizeof(input), stdin); // Read input from the user
-            input[strcspn(input, "\n")] = "\0"; // Remove newline character
+            input[strcspn(input, "\n")] = '\0'; // Remove newline character
 
             if (cleanNumericInput(input) != 0 || sscanf(input, "%d", &choice) != 1 || choice < 1 || choice > 10) {
                 printf("Invalid choice! Please enter a number between 1 and 10: ");
@@ -71,7 +71,7 @@ int main() {
 
                 do {
                     fgets(rollInput, sizeof(rollInput), stdin); // Read input from the user
-                    rollInput[strcspn(rollInput, "\n")] = "\0"; // Remove newline character
+                    rollInput[strcspn(rollInput, "\n")] = '\0'; // Remove newline character
 
                     if (cleanNumericInput(rollInput) != 0 || sscanf(rollInput, "%d", &rollNumber) != 1) {
                         printf("Invalid roll number! Please enter a valid integer: ");
@@ -116,7 +116,7 @@ int main() {
                 do {
                     printf("Enter your choice: ");
                     fgets(orderInput, sizeof(orderInput), stdin); // Read input from the user
-                    orderInput[strcspn(orderInput, "\n")] = "\0"; // Remove newline character
+                    orderInput[strcspn(orderInput, "\n")] = '\0'; // Remove newline character
         
                     if (cleanNumericInput(orderInput) != 0 || sscanf(orderInput, "%d", &order) != 1 || choice < 1 || choice > 10) {
                         printf("Invalid choice! Please enter a number between 1 and 10: ");
