@@ -13,10 +13,8 @@ int main() {
 
     printf("Hello! Welcome to the Students Score Record program.\nPlease enter your name: ");
     do {
-        cleanStringInput(user);
-        if (cleanStringInput(user) != 0) {
-            printf("Invalid input! Please enter a valid name: ");
-        }
+        fgets(user, sizeof(user), stdin);
+        user[strcspn(user, "\n")] = '\0';
     } while (cleanStringInput(user) != 0);
 
     printf("Welcome %s! Kindly select an operation from the functions below.\nProvide the number of the operation you would like to perform\n", user);
@@ -26,6 +24,7 @@ int main() {
     int studentCount = 0; // Number of students currently stored
     int capacity = INITIAL_CAPACITY; // Initial capacity of the dynamic array
     struct BSTNode* bstRoot = NULL;  // Root of the BST
+    char input[50];
 
     // Allocate memory for the dynamic array
     struct student *students = (struct student *)malloc(capacity * sizeof(struct student));
@@ -38,14 +37,8 @@ int main() {
         displayMenu(); // Display the menu options
         printf("Enter your choice: ");
         do {
-            char input[50];
             fgets(input, sizeof(input), stdin);
-            if (cleanNumericInput(input) != 0) {
-                printf("Invalid choice! Please enter a valid number: ");
-            } else {
-                choice = atoi(input);
-            }
-        } while (cleanNumericInput(input) != 0 || choice < 1 || choice > 10);
+        } while (cleanNumericInput(input) != 0 || (choice = atoi(input)) < 1 || choice > 10);
 
         switch (choice) {
             case 1:
@@ -65,16 +58,9 @@ int main() {
                 printf("Enter roll number to search: ");
                 int rollNumber;
                 do {
-                    char input[50];
                     fgets(input, sizeof(input), stdin);
-                    if (cleanNumericInput(input) != 0) {
-                        printf("Invalid roll number! Please enter a valid number: ");
-                    } else {
-                        rollNumber = atoi(input);
-                    }
-                } while (cleanNumericInput(input) != 0);
-                
-                struct student* foundStudent = searchBST(bstRoot, rollNumber);
+                } while (cleanNumericInput(input) != 0 || (rollNumber = atoi(input)) <= 0);
+                struct student* foundStudent = searchBST(bstRoot, rollNumber); // search for student record by roll number
                 if (foundStudent) {
                     printf("\nStudent found:\n");
                     displayStudentData(foundStudent);
@@ -108,15 +94,8 @@ int main() {
                 printf("Enter choice: ");
                 int order;
                 do {
-                    char input[50];
                     fgets(input, sizeof(input), stdin);
-                    if (cleanNumericInput(input) != 0) {
-                        printf("Invalid choice! Please enter 1 or 2: ");
-                    } else {
-                        order = atoi(input);
-                    }
-                } while (cleanNumericInput(input) != 0 || (order != 1 && order != 2));
-                
+                } while (cleanNumericInput(input) != 0 || ((order = atoi(input)) != 1 && order != 2));
                 int ascending = (order == 1);
                 quickSort(students, 0, studentCount - 1, ascending);
                 printf("\nStudents sorted by average score:\n");
