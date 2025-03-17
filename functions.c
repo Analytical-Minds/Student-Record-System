@@ -57,14 +57,29 @@ void displayAllStudents(const struct student students[],  int count) {
 
 
 // Function to input student data
-void inputStudentData(struct student *s) {
+void inputStudentData(struct student *s, int *count) {
     printf("Enter student name: ");
     fgets(s->name, sizeof(s->name), stdin);
     s->name[strcspn(s->name, "\n")] = '\0'; // Remove the newline character
 
-    printf("Enter roll number: ");
-    scanf("%d", &s->roll_number);
-    clearInputBuffer(); // Clear the input buffer after scanf
+    int rollNumber;
+    int isUnique;
+
+    do {
+        printf("Enter roll number: ");
+        scanf("%d", &rollNumber);
+        clearInputBuffer(); // Clear the input buffer after scanf
+
+        // Check if the roll number is unique
+        isUnique = isRollNumberUnique(rollNumber, &s, &count);
+
+        if (!isUnique) {
+            printf("Please enter a unique roll number.\n");
+        }
+    } while (!isUnique); // Repeat until a unique roll number is entered
+
+    // Now that we have a unique roll number, proceed to input the rest of the student data
+    s->roll_number = rollNumber; // Assign the unique roll number
 
     printf("Enter the number of scores (up to %d): ", MAX_SCORES);
     scanf("%d", &s->num_scores);
@@ -105,7 +120,7 @@ void addStudent(struct student **students, int *count, int *capacity) {
         }
     }
 
-    inputStudentData(&(*students)[*count]); // Input data for the new student
+    inputStudentData(&(*students)[*count], &count); // Input data for the new student
     (*count)++; // Increment the student count
     printf("Student added successfuly.\n");
 }
@@ -367,4 +382,36 @@ int cleanNumericInput(char *input) {
     regfree(&regex);
     
     return (result == 0) ? 0 : 1;  // 0 if valid, 1 if invalid
+}
+
+
+// Function to check if a roll number is unique
+int isRollNumberUnique(int rollNumber, const struct student *students, int count) {
+    // Check if the roll number exists in the students array
+    for (int i = 0; i < count; i++) {
+        if (students[i].roll_number == rollNumber) {
+            printf("Error: Roll number %d already exists in memory.\n", rollNumber);
+            return 0; // Not unique
+        }
+    }
+
+    // Check if the roll number exists in the students.txt file
+    FILE *file = fopen("students.txt", "r");
+    if (file != NULL) {
+        char line[100];
+        while (fgets(line, sizeof(line), file)) {
+            if (strstr(line, "Roll Number: ") == line) {
+                int existingRollNumber;
+                sscanf(line + 13, "%d", &existingRollNumber); // Extract roll number from the line
+                if (existingRollNumber == rollNumber) {
+                    printf("Error: Roll number %d already exists in the file.\n", rollNumber);
+                    fclose(file);
+                    return 0; // Not unique
+                }
+            }
+        }
+        fclose(file);
+    }
+
+    return 1; // Roll number is unique
 }
