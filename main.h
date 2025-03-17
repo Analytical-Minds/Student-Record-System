@@ -40,7 +40,7 @@ struct BSTNode {
 // Function prototypes
 void displayMenu();
 void displayStudentData(const struct student *s);
-void inputStudentData(struct student *s, const struct student *students, int count);
+void inputStudentData(struct student *s, const struct student *students, int count, int currentRollNumber);
 void displayAllStudents(const struct student students[], int count);
 void addStudent(struct student **students, int *count, int *capacity);
 void modifyStudent(struct student students[], int count);
@@ -56,7 +56,7 @@ int partition(struct student students[], int low, int high, int ascending);
 void clearInputBuffer();
 int cleanStringInput(char *input);
 int cleanNumericInput(char *input);
-int isRollNumberUnique(int rollNumber, const struct student *students, int count);
+int isRollNumberUnique(int rollNumber, const struct student *students, int count, int currentRollNumber);
 
 
 #endif // MAIN_H
