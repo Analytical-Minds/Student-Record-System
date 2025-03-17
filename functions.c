@@ -42,6 +42,21 @@ void displayStudentData(const struct student *s) {
 }
 
 
+// Function to display all students
+void displayAllStudents(const struct student students[],  int count) {
+    if (count == 0) {
+        printf("No students found.\n");
+        return;
+    }
+
+    // Loop through the dynamic student array and display each student's record
+    for(int i = 0; i < count; i++) {
+        displayStudentData(&students[i]);
+    }
+}
+
+
+
 // Function to input student data
 void inputStudentData(struct student *s, const struct student *students, int count, int currentRollNumber) {
     // Input student name
