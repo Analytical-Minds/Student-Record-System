@@ -40,7 +40,7 @@ struct BSTNode {
 // Function prototypes
 void displayMenu();
 void displayStudentData(const struct student *s);
-void inputStudentData(struct student *s, int *count);
+void inputStudentData(struct student *s, const struct student *students, int count);
 void displayAllStudents(const struct student students[], int count);
 void addStudent(struct student **students, int *count, int *capacity);
 void modifyStudent(struct student students[], int count);

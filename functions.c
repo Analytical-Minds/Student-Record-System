@@ -56,12 +56,13 @@ void displayAllStudents(const struct student students[],  int count) {
 }
 
 
-// Function to input student data
-void inputStudentData(struct student *s, int *count) {
+void inputStudentData(struct student *s, const struct student *students, int count) {
+    // Input student name
     printf("Enter student name: ");
     fgets(s->name, sizeof(s->name), stdin);
     s->name[strcspn(s->name, "\n")] = '\0'; // Remove the newline character
 
+    // Input and validate roll number
     int rollNumber;
     int isUnique;
 
@@ -71,16 +72,17 @@ void inputStudentData(struct student *s, int *count) {
         clearInputBuffer(); // Clear the input buffer after scanf
 
         // Check if the roll number is unique
-        isUnique = isRollNumberUnique(rollNumber, &s, &count);
+        isUnique = isRollNumberUnique(rollNumber, students, count);
 
         if (!isUnique) {
-            printf("Please enter a unique roll number.\n");
+            printf("Error: Roll number %d is already in use. Please enter a unique roll number.\n", rollNumber);
         }
     } while (!isUnique); // Repeat until a unique roll number is entered
 
-    // Now that we have a unique roll number, proceed to input the rest of the student data
-    s->roll_number = rollNumber; // Assign the unique roll number
+    // Assign the unique roll number to the student
+    s->roll_number = rollNumber;
 
+    // Input the number of scores
     printf("Enter the number of scores (up to %d): ", MAX_SCORES);
     scanf("%d", &s->num_scores);
     clearInputBuffer(); // Clear the input buffer after scanf
@@ -98,7 +100,7 @@ void inputStudentData(struct student *s, int *count) {
         exit(1);
     }
 
-    // Get each score up to num_scores
+    // Input each score
     for (int i = 0; i < s->num_scores; i++) {
         printf("Enter score %d: ", i + 1);
         scanf("%f", &s->marks[i]);
@@ -107,7 +109,6 @@ void inputStudentData(struct student *s, int *count) {
 }
 
 
-// Function to add new student
 void addStudent(struct student **students, int *count, int *capacity) {
     if (*count >= *capacity) {
         // Double the capacity
@@ -120,13 +121,14 @@ void addStudent(struct student **students, int *count, int *capacity) {
         }
     }
 
-    inputStudentData(&(*students)[*count], &count); // Input data for the new student
+    // Input student data (including roll number uniqueness check)
+    inputStudentData(&(*students)[*count], *students, *count);
+
     (*count)++; // Increment the student count
-    printf("Student added successfuly.\n");
+    printf("Student added successfully.\n");
 }
 
 
-// Function to modify a student
 void modifyStudent(struct student students[], int count) {
     if (count == 0) {
         printf("No students found.\n");
@@ -141,7 +143,7 @@ void modifyStudent(struct student students[], int count) {
     for (int i = 0; i < count; i++) {
         if (students[i].roll_number == rollNumber) {
             printf("Modifying student with roll number %d:\n", rollNumber);
-            inputStudentData(&students[i]); // Re-enter student data
+            inputStudentData(&students[i], students, count); // Re-enter student data
             printf("Student modified successfully.\n");
             return;
         }
