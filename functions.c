@@ -59,19 +59,34 @@ void displayAllStudents(const struct student students[],  int count) {
 
 // Function to input student data
 void inputStudentData(struct student *s, const struct student *students, int count, int currentRollNumber) {
-    // Input student name
-    printf("Enter student name: ");
-    fgets(s->name, sizeof(s->name), stdin);
-    s->name[strcspn(s->name, "\n")] = '\0'; // Remove the newline character
+    char input[100]; // Buffer for input validation
 
-    // Input and validate roll number
+    // Input student name (validate using cleanStringInput)
+    do {
+        printf("Enter student name: ");
+        fgets(input, sizeof(input), stdin);
+        input[strcspn(input, "\n")] = '\0'; // Remove the newline character
+
+        if (cleanStringInput(input) != 0) {
+            printf("Invalid input! Name must contain only letters and spaces.\n");
+        }
+    } while (cleanStringInput(input) != 0); // Repeat until valid input is provided
+    strcpy(s->name, input); // Copy the validated name to the student struct
+
+    // Input and validate roll number (validate using cleanNumericInput)
     int rollNumber;
     int isUnique;
 
     do {
-        printf("Enter roll number: ");
-        scanf("%d", &rollNumber);
-        clearInputBuffer(); // Clear the input buffer after scanf
+        do {
+            printf("Enter roll number: ");
+            fgets(input, sizeof(input), stdin);
+            input[strcspn(input, "\n")] = '\0'; // Remove the newline character
+
+            if (cleanNumericInput(input) != 0 || sscanf(input, "%d", &rollNumber) != 1) {
+                printf("Invalid input! Roll number must be a positive integer.\n");
+            }
+        } while (cleanNumericInput(input) != 0 || sscanf(input, "%d", &rollNumber) != 1); // Repeat until valid input is provided
 
         // Check if the roll number is unique (excluding currentRollNumber)
         isUnique = isRollNumberUnique(rollNumber, students, count, currentRollNumber);
@@ -84,10 +99,16 @@ void inputStudentData(struct student *s, const struct student *students, int cou
     // Assign the unique roll number to the student
     s->roll_number = rollNumber;
 
-    // Input the number of scores
-    printf("Enter the number of scores (up to %d): ", MAX_SCORES);
-    scanf("%d", &s->num_scores);
-    clearInputBuffer(); // Clear the input buffer after scanf
+    // Input the number of scores (validate using cleanNumericInput)
+    do {
+        printf("Enter the number of scores (up to %d): ", MAX_SCORES);
+        fgets(input, sizeof(input), stdin);
+        input[strcspn(input, "\n")] = '\0'; // Remove the newline character
+
+        if (cleanNumericInput(input) != 0 || sscanf(input, "%d", &s->num_scores) != 1 || s->num_scores <= 0) {
+            printf("Invalid input! Number of scores must be a positive integer.\n");
+        }
+    } while (cleanNumericInput(input) != 0 || sscanf(input, "%d", &s->num_scores) != 1 || s->num_scores <= 0); // Repeat until valid input is provided
 
     // Enforce the MAX_SCORES limit
     if (s->num_scores > MAX_SCORES) {
@@ -102,11 +123,17 @@ void inputStudentData(struct student *s, const struct student *students, int cou
         exit(1);
     }
 
-    // Input each score
+    // Input each score (validate using cleanNumericInput)
     for (int i = 0; i < s->num_scores; i++) {
-        printf("Enter score %d: ", i + 1);
-        scanf("%f", &s->marks[i]);
-        clearInputBuffer(); // Clear the input buffer after scanf
+        do {
+            printf("Enter score %d: ", i + 1);
+            fgets(input, sizeof(input), stdin);
+            input[strcspn(input, "\n")] = '\0'; // Remove the newline character
+
+            if (cleanNumericInput(input) != 0 || sscanf(input, "%f", &s->marks[i]) != 1 || s->marks[i] < 0) {
+                printf("Invalid input! Score must be a non-negative number.\n");
+            }
+        } while (cleanNumericInput(input) != 0 || sscanf(input, "%f", &s->marks[i]) != 1 || s->marks[i] < 0); // Repeat until valid input is provided
     }
 }
 
@@ -124,7 +151,7 @@ void addStudent(struct student **students, int *count, int *capacity) {
         }
     }
 
-    // Input student data (including roll number uniqueness check)
+    // Input student data (including input validation)
     inputStudentData(&(*students)[*count], *students, *count, -1); // -1 indicates no current roll number to exclude
 
     (*count)++; // Increment the student count
@@ -140,10 +167,20 @@ void modifyStudent(struct student students[], int count) {
     }
 
     int rollNumber;
-    printf("Enter the roll number of the student to modify: ");
-    scanf("%d", &rollNumber);
-    clearInputBuffer(); // Clear the input buffer after scanf
+    char input[100]; // Buffer for input validation
 
+    // Input roll number to modify (validate using cleanNumericInput)
+    do {
+        printf("Enter the roll number of the student to modify: ");
+        fgets(input, sizeof(input), stdin);
+        input[strcspn(input, "\n")] = '\0'; // Remove the newline character
+
+        if (cleanNumericInput(input) != 0 || sscanf(input, "%d", &rollNumber) != 1) {
+            printf("Invalid input! Roll number must be a positive integer.\n");
+        }
+    } while (cleanNumericInput(input) != 0 || sscanf(input, "%d", &rollNumber) != 1); // Repeat until valid input is provided
+
+    // Find and modify the student
     for (int i = 0; i < count; i++) {
         if (students[i].roll_number == rollNumber) {
             printf("Modifying student with roll number %d:\n", rollNumber);
